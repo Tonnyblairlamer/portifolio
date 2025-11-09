@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tonny Blair | Code & Design</title>
+
+  <!-- ✅ Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- ✅ Font Awesome (Primary CDN + Fallback) -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCz6rA7kV+KXogZSmHgwlHGawEq+y3OCAXoTr4a9L5xRcmRl6VwBEmc6kfjhJrj5lamb3Nw=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+    onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css';" />
+
+  <style>
+    :root {
+      --orange:#ff7b00;
+      --orange-light:#ffb84d;
+      --ink:#1b1b1b;
+      --muted:#555;
+      --soft:#fff7ef;
+      --white:#fff;
+      --shadow:0 10px 30px rgba(0,0,0,.08);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0;font-family:'Poppins',sans-serif;}
+    body {
+      background:var(--soft);
+      color:var(--ink);
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      position:fixed;
+      top:0; left:0;
+      width:100%;
+      padding:15px 60px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background:transparent;
+      transition:background 0.4s ease, box-shadow 0.4s ease;
+      z-index:100;
+    }
+    header.scrolled {
+      background:rgba(255,123,0,0.95);
+      box-shadow:0 4px 12px rgba(0,0,0,0.15);
+    }
+    .logo {
+      color:#fff;
+      font-weight:800;
+      font-size:1.4rem;
+      letter-spacing:0.5px;
+      text-decoration:none;
+    }
+    nav ul {
+      list-style:none;
+      display:flex;
+      gap:28px;
+    }
+    nav a {
+      text-decoration:none;
+      color:#fff;
+      font-weight:500;
+      transition:opacity .2s;
+    }
+    nav a:hover {opacity:.8;}
+
+    /* Hamburger */
+    .menu-toggle {
+      display:none;
+      flex-direction:column;
+      gap:5px;
+      background:none;
+      border:none;
+      cursor:pointer;
+      z-index:150;
+    }
+    .menu-toggle span {
+      width:25px;
+      height:3px;
+      background:#fff;
+      border-radius:2px;
+      transition:.3s;
+    }
+    .menu-toggle.open span:nth-child(1){transform:rotate(45deg) translateY(7px);}
+    .menu-toggle.open span:nth-child(2){opacity:0;}
+    .menu-toggle.open span:nth-child(3){transform:rotate(-45deg) translateY(-7px);}
+    @media(max-width:900px){
+      .menu-toggle{display:flex;}
+      nav ul{display:none;position:absolute;right:20px;top:65px;background:rgba(255,123,0,0.95);padding:15px;border-radius:10px;flex-direction:column;}
+      nav ul.show{display:flex;}
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:120px 8% 60px;
+      flex-wrap:wrap;
+      gap:50px;
+    }
+    .hero-text {
+      flex:1;
+      min-width:300px;
+    }
+    .hero-text h1 {
+      font-size:2.6rem;
+      color:var(--ink);
+    }
+    .hero-text span {
+      color:var(--orange);
+    }
+    .hero-text p {
+      margin-top:10px;
+      color:var(--muted);
+      line-height:1.6;
+    }
+    .hero-buttons {
+      margin-top:25px;
+      display:flex;
+      gap:15px;
+      flex-wrap:wrap;
+    }
+    .btn {
+      text-decoration:none;
+      padding:12px 24px;
+      border-radius:30px;
+      font-weight:600;
+      transition:all .3s;
+    }
+    .btn-primary {
+      background:linear-gradient(90deg,var(--orange),var(--orange-light));
+      color:#fff;
+    }
+    .btn-primary:hover {opacity:.9;}
+    .btn-outline {
+      border:2px solid var(--orange);
+      color:var(--orange);
+    }
+    .btn-outline:hover {
+      background:var(--orange);
+      color:#fff;
+    }
+
+    /* ===== SLIDESHOW ===== */
+    .hero-image {
+      position:relative;
+      flex:1;
+      min-width:300px;
+      max-width:400px;
+      border-radius:50%;
+      overflow:hidden;
+      box-shadow:0 20px 40px rgba(255,123,0,.3);
+    }
+    .hero-image img {
+      position:absolute;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      opacity:0;
+      transition:opacity 1.2s ease-in-out;
+    }
+    .hero-image img.active {
+      opacity:1;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background:#1a1a1a;
+      color:#eee;
+      padding:50px 10%;
+      text-align:center;
+      margin-top:60px;
+    }
+    .social-icons a {
+      color:#ffcc66;
+      margin:0 10px;
+      font-size:20px;
+      text-decoration:none;
+      transition:transform .3s, color .3s;
+    }
+    .social-icons a:hover {
+      color:var(--orange-light);
+      transform:scale(1.2);
+    }
+
+    /* ===== FLOATING BUTTONS ===== */
+    .fab {
+      position:fixed;
+      bottom:25px;
+      right:20px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      z-index:99;
+    }
+    .fab a, .fab button {
+      background:var(--orange);
+      color:#fff;
+      border:none;
+      width:55px;
+      height:55px;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:24px;
+      box-shadow:0 10px 20px rgba(0,0,0,0.2);
+      cursor:pointer;
+    }
+    .fab a:hover, .fab button:hover {background:var(--orange-light);}
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header id="header">
+    <a href="#" class="logo">Tonny Blair</a>
+    <button class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></button>
+    <nav>
+      <ul id="navMenu">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Education</a></li>
+        <li><a href="#">Projects</a></li>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Hi, I'm <span>Tonny Blair</span></h1>
+      <p>Where Smart Code Meets Stunning Design.<br>
+      I’m a web developer and graphics designer who builds sleek, responsive and modern digital solutions.</p>
+      <div class="hero-buttons">
+        <a href="#" class="btn btn-primary"><i class="fa-solid fa-rocket"></i> View My Work</a>
+        <a href="#" class="btn btn-outline"><i class="fa-regular fa-paper-plane"></i> Contact Me</a>
+      </div>
+    </div>
+
+    <div class="hero-image">
+      <img src="assets/images/tonny1.jpg" class="active" alt="Tonny 1">
+      <img src="assets/images/tonny2.jpg" alt="Tonny 2">
+      <img src="assets/images/tonny3.jpg" alt="Tonny 3">
+      <img src="assets/images/tonny4.jpg" alt="Tonny 4">
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <p>Follow me on:</p>
+    <div class="social-icons">
+      <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+      <a href="#"><i class="fa-brands fa-instagram"></i></a>
+      <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+      <a href="#"><i class="fa-brands fa-github"></i></a>
+    </div>
+    <p style="margin-top:20px;">© <span id="year"></span> Tonny Blair. All rights reserved.</p>
+  </footer>
+
+  <!-- ===== FLOATING BUTTONS ===== -->
+  <div class="fab">
+    <a href="https://wa.me/256700000000" target="_blank" aria-label="WhatsApp">
+      <i class="fa-brands fa-whatsapp"></i>
+    </a>
+    <button id="scrollTop" aria-label="Scroll to top"><i class="fa-solid fa-arrow-up"></i></button>
+  </div>
+
+  <!-- ===== SCRIPT ===== -->
+  <script>
+    // Navbar scroll background
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 20) header.classList.add('scrolled');
+      else header.classList.remove('scrolled');
+    });
+
+    // Mobile menu
+    const toggle = document.getElementById('menuToggle');
+    const navMenu = document.getElementById('navMenu');
+    toggle.addEventListener('click', () => {
+      toggle.classList.toggle('open');
+      navMenu.classList.toggle('show');
+    });
+
+    // Hero slideshow
+    const slides = document.querySelectorAll('.hero-image img');
+    let index = 0;
+    setInterval(() => {
+      slides[index].classList.remove('active');
+      index = (index + 1) % slides.length;
+      slides[index].classList.add('active');
+    }, 3500);
+
+    // Back to top
+    const scrollTop = document.getElementById('scrollTop');
+    scrollTop.addEventListener('click', () => {
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    });
+
+    // Year update
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

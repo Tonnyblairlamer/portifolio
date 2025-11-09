@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tonny Blair | Code & Design</title>
+
+  <!-- Fonts, Bootstrap, Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+
+  <!-- GLightbox -->
+  <link href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+
+  <style>
+    :root{
+      --orange:#ff7b00;
+      --gold:#ffd580;
+      --ink:#1b1b1b;
+      --muted:#565656;
+      --soft:#fffaf4;
+      --deep:#1a1a1a;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:'Poppins',sans-serif;background:var(--soft);color:var(--ink);margin:0}
+    a{text-decoration:none}
+
+    /* Navbar */
+    .menu{background:transparent;transition:background .3s, box-shadow .3s}
+    .menu.scrolled{background:rgba(255,123,0,.95)!important;box-shadow:0 8px 24px rgba(0,0,0,.15)}
+    .navbar-dark .nav-link{color:#fff;font-weight:500}
+    .navbar-dark .nav-link:hover,.navbar-dark .nav-link.active{color:var(--gold)}
+
+    /* Hero */
+    .intro-section{padding-top:120px;background:linear-gradient(120deg,#fffaf4 0%,#fff 100%)}
+    .display-2--intro{color:var(--orange);font-weight:800;font-size:2.2rem}
+    .display-2--description{font-size:1rem;color:#444}
+    .btn-rounded{background:linear-gradient(90deg,var(--orange),var(--gold));border:none;color:#1b1b1b;padding:.6rem 1.2rem;border-radius:999px;font-weight:700}
+    .btn-rounded:hover{opacity:.95}
+
+    /* Hero slideshow */
+    .slideshow-circle{position:relative;width:min(440px,85vw);aspect-ratio:1/1;border-radius:50%;overflow:hidden;margin-left:auto;box-shadow:0 28px 60px rgba(255,123,0,.25)}
+    .slideshow-circle img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.2s ease-in-out}
+    .slideshow-circle img.active{opacity:1}
+
+    /* Section titles */
+    .heading-line{width:80px;height:4px;background:var(--orange);margin:.6rem auto}
+
+    /* Services as cards */
+    .services{padding:80px 0}
+    .service-card{background:#fff;border-radius:18px;padding:34px 24px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.06);transition:transform .25s, box-shadow .25s}
+    .service-card i{font-size:2.2rem;color:var(--orange);margin-bottom:14px;transition:color .25s, text-shadow .25s}
+    .service-card h4{font-weight:700;margin-bottom:10px}
+    .service-card p{color:#555;font-size:.96rem}
+    .service-card:hover{transform:translateY(-6px);box-shadow:0 12px 28px rgba(255,123,0,.25)}
+    .service-card:hover i{color:var(--gold);text-shadow:0 0 10px rgba(255,123,0,.6)}
+
+    /* Portfolio */
+    .portfolio{padding:80px 0;background:#fff}
+    .portfolio-box{position:relative;overflow:hidden;border-radius:14px;box-shadow:0 4px 18px rgba(0,0,0,.08);cursor:pointer;transition:.3s}
+    .portfolio-box img{width:100%;height:auto;display:block;transition:transform .4s ease}
+    .portfolio-box:hover img{transform:scale(1.08)}
+    .portfolio-box:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(255,123,0,0.3)}
+    .portfolio-info{position:absolute;left:0;right:0;bottom:0;padding:18px 16px;color:#fff;background:linear-gradient(to top,rgba(0,0,0,.65),transparent)}
+    .portfolio-info h4{margin:0;color:var(--gold);font-weight:700}
+    .portfolio-info p{margin:0;opacity:.9}
+
+    /* Lightbox Button */
+    .lightbox-btn {
+      display:inline-block;margin-top:10px;
+      background:linear-gradient(90deg,var(--orange),var(--gold));
+      color:#1b1b1b;font-weight:600;
+      padding:8px 16px;border-radius:50px;
+      text-decoration:none;box-shadow:0 4px 12px rgba(255,123,0,0.4);
+      animation:pulse 2s infinite;transition:all .3s ease;
+    }
+    .lightbox-btn:hover{background:var(--gold);transform:translateY(-2px);box-shadow:0 6px 18px rgba(255,123,0,0.5)}
+    @keyframes pulse{0%,100%{box-shadow:0 0 10px rgba(255,123,0,.3)}50%{box-shadow:0 0 18px rgba(255,123,0,.6)}}
+
+    /* Lightbox caption styling */
+    .gdesc-inner {
+      font-family: 'Poppins', sans-serif;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 12px;
+      padding: 12px 16px;
+      color: #fff;
+      text-align: left;
+    }
+    .gdesc-inner h4 {color: var(--gold);font-size: 1.2rem;margin-bottom: 6px;}
+    .gdesc-inner p {font-size: 0.9rem;line-height: 1.4;color: #eee;}
+
+    /* Testimonials */
+    .testimonials{background:var(--deep);color:#fff;padding:70px 0}
+    .testimonials .carousel-item{text-align:center}
+    .testimonials .testimonials__picture img{width:90px;height:90px;object-fit:cover;border-radius:50%;border:3px solid rgba(255,213,128,.6);margin:10px auto}
+
+    /* Education & Skills */
+    .edu{background:#fffaf4;padding:80px 0}
+    .edu .card{border:0;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+    .skills-wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+    .pill{border:1px solid rgba(0,0,0,.08);border-radius:999px;background:#fff;padding:.5rem .85rem;font-weight:600;color:#333;text-align:center}
+    .btn-cv{display:inline-flex;align-items:center;gap:.5rem;padding:.7rem 1.2rem;border-radius:999px;background:linear-gradient(135deg,var(--orange),var(--gold));color:#1b1b1b;font-weight:800;border:none;box-shadow:0 14px 32px rgba(255,123,0,.35);transition:transform .2s, box-shadow .2s}
+    .btn-cv:hover{transform:translateY(-2px);box-shadow:0 18px 42px rgba(255,123,0,.45)}
+
+    /* Footer */
+    footer{background:#1a1a1a;color:#ddd}
+    .footer-bottom{background:#161616}
+
+    /* Floating buttons */
+    .back-to-top,.wa-fab{position:fixed;right:18px;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;border:none;z-index:999}
+    .back-to-top{bottom:88px;background:linear-gradient(90deg,var(--orange),var(--gold));color:#1b1b1b}
+    .wa-fab{bottom:20px;background:#25D366;color:#fff}
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark menu shadow fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="#"><span><h1>Tonny Blair</h1></span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="#education">Education</a></li>
+        <li class="nav-item"><a class="nav-link" href="#portfolio">Projects</a></li>
+        <li class="nav-item"><a class="nav-link" href="#testimonials">Testimonials</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+      </ul>
+      <a class="btn-rounded ms-lg-3" href="https://wa.me/256763860855" target="_blank" rel="noopener">+256 763 860 855</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="home" class="intro-section">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-6">
+        <h1 class="display-2">
+          <span class="display-2--intro">Hey, I'm <b>Tonny Blair</b></span>
+          <span class="display-2--description">Creative programmer & graphics designer delivering clean code and sleek visuals for modern brands.</span>
+        </h1>
+        <div class="mt-3 d-flex gap-2">
+          <a href="#portfolio" class="btn-rounded">View Projects</a>
+          <a href="#contact" class="btn btn-outline-dark rounded-pill">Hire Me</a>
+        </div>
+      </div>
+      <div class="col-md-6 text-end">
+        <div class="slideshow-circle">
+          <img src="t1.jpg" alt="Tonny 1" class="active">
+          <img src="t2.jpg" alt="Tonny 2">
+          <img src="t3.jpg" alt="Tonny 3">
+          <img src="t4.jpg" alt="Tonny 4">
+          <img src="TONY GRAPHICS TG.png" alt="Tonny 4">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="services">
+  <div class="container">
+    <div class="text-center mb-4">
+      <h1 class="fw-bold">My Services</h1>
+      <div class="heading-line"></div>
+      <p class="text-muted">Quality solutions tailored to your digital needs</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="service-card h-100"><i class="fa-solid fa-code"></i><h4>Web Development</h4><p>Responsive, accessible websites and mini-systems — built fast, clean, and modern.</p></div>
+      </div>
+      <div class="col-md-4">
+        <div class="service-card h-100"><i class="fa-solid fa-pen-nib"></i><h4>Graphics Design</h4><p>Branding, posters, and social content — crisp visuals that fit your identity everywhere.</p></div>
+      </div>
+      <div class="col-md-4">
+        <div class="service-card h-100"><i class="fa-solid fa-share-nodes"></i><h4>Social & IT</h4><p>Boost your digital presence with content, strategy, and hands-on technical support.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS (Improved Lightbox Section) -->
+<section id="portfolio" class="portfolio">
+  <div class="container">
+    <div class="text-center mt-1 mb-4">
+      <h1 class="fw-bold text-capitalize">Latest Work</h1>
+      <div class="heading-line"></div>
+      <p class="text-muted">A few recent projects and designs</p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-4 col-md-6">
+        <div class="portfolio-box">
+          <a href="tg.jpg" class="glightbox" data-gallery="tonny-projects" data-title="Birthday Flier" data-description="<p>Bright, clean birthday flyer created with Photoshop.</p><a href='https://www.behance.net/tonnyblair' target='_blank' class='lightbox-btn'>🔗 View Project</a>">
+            <img src="tg.jpg" alt="Birthday Flier">
+            <div class="portfolio-info"><h4>Tonny Graphics</h4><p>Graphics Design</p></div>
+          </a>
+        </div>
+      </div>
+       <div class="col-lg-4 col-md-6">
+        <div class="portfolio-box">
+          <a href="bd flier.jpg" class="glightbox" data-gallery="tonny-projects" data-title="Birthday Flier" data-description="<p>Bright, clean birthday flyer created with Photoshop.</p><a href='https://www.behance.net/tonnyblair' target='_blank' class='lightbox-btn'>🔗 View Project</a>">
+            <img src="bd flier.jpg" alt="Birthday Flier">
+            <div class="portfolio-info"><h4>Birthday Flier</h4><p>Graphics Design</p></div>
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="portfolio-box">
+          <a href="FINA.jpg" class="glightbox" data-gallery="tonny-projects" data-title="Symposium Flier" data-description="<p>Bright, clean birthday flyer created with Photoshop.</p><a href='https://www.behance.net/tonnyblair' target='_blank' class='lightbox-btn'>🔗 View Project</a>">
+            <img src="FINA.jpg" alt="Birthday Flier">
+            <div class="portfolio-info"><h4>Symposium Flier</h4><p>Graphics Design</p></div>
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="portfolio-box">
+          <a href="radio ankole.jpg" class="glightbox" data-gallery="tonny-projects" data-title="Radio Flier" data-description="<p>Bright, clean birthday flyer created with Photoshop.</p><a href='https://www.behance.net/tonnyblair' target='_blank' class='lightbox-btn'>🔗 View Project</a>">
+            <img src="radio ankole.jpg" alt="Birthday Flier">
+            <div class="portfolio-info"><h4>Radio Flier</h4><p>Graphics Design</p></div>
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="portfolio-box">
+          <a href="kk.jpg" class="glightbox" data-gallery="tonny-projects" data-title="Birthday Flier" data-description="<p>Bright, clean birthday flyer created with Photoshop.</p><a href='https://www.behance.net/tonnyblair' target='_blank' class='lightbox-btn'>🔗 View Project</a>">
+            <img src="kk.jpg" alt="Birthday Flier">
+            <div class="portfolio-info"><h4>Ticktock Flier</h4><p>Graphics Design</p></div>
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="portfolio-box">
+          <a href="new n.jpg" class="glightbox" data-gallery="tonny-projects" data-title="Birthday Flier" data-description="<p>Bright, clean birthday flyer created with Photoshop.</p><a href='https://www.behance.net/tonnyblair' target='_blank' class='lightbox-btn'>🔗 View Project</a>">
+            <img src="new n.jpg" alt="Birthday Flier">
+            <div class="portfolio-info"><h4>New Month Flier</h4><p>Graphics Design</p></div>
+          </a>
+        </div>
+         </div>
+          <div class="col-lg-4 col-md-6">
+        <div class="portfolio-box">
+          <a href="Final.jpg" class="glightbox" data-gallery="tonny-projects" data-title="Birthday Flier" data-description="<p>Bright, clean birthday flyer created with Photoshop.</p><a href='https://www.behance.net/tonnyblair' target='_blank' class='lightbox-btn'>🔗 View Project</a>">
+            <img src="Final.jpg" alt="Birthday Flier">
+            <div class="portfolio-info"><h4>Dinner Flier</h4><p>Graphics Design</p></div>
+          </a>
+        </div>
+         </div>
+        <div class="col-lg-4 col-md-6">
+        <div class="portfolio-box">
+          <a href="ang.jpg" class="glightbox" data-gallery="tonny-projects" data-title="Birthday Flier" data-description="<p>Bright, clean birthday flyer created with Photoshop.</p><a href='https://www.behance.net/tonnyblair' target='_blank' class='lightbox-btn'>🔗 View Project</a>">
+            <img src="ang.jpg" alt="Birthday Flier">
+            <div class="portfolio-info"><h4>New month Flier</h4><p>Graphics Design</p></div>
+          </a>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <div class="portfolio-box">
+          <a href="https://agrolink-codewith-blair.netlify.app/" class="glightbox" data-gallery="tonny-projects" data-title="E- farming" data-description="<p>Responsive student association website built using HTML, CSS & JS.</p><a href='https://agrolink-codewith-blair.netlify.app/' target='_blank' class='lightbox-btn'>🔗 View Project</a>">
+            <img src="farmers site.png" alt="NUSA Website">
+            <div class="portfolio-info"><h4>E-farming Website</h4><p>Web Development</p></div>
+          </a>
+        </div>
+      </div>
+
+
+     
+      <div class="col-lg-4 col-md-6">
+        <div class="portfolio-box">
+          <a href="https://nusamubs-apply.netlify.app/" class="glightbox" data-gallery="tonny-projects" data-title="NUSA Website" data-description="<p>Responsive student association website built using HTML, CSS & JS.</p><a href='https://nusamubs-apply.netlify.app/' target='_blank' class='lightbox-btn'>🔗 View Project</a>">
+            <img src="nusa.png" alt="NUSA Website">
+            <div class="portfolio-info"><h4>NUSA Website</h4><p>Web Development</p></div>
+          </a>
+        </div>
+      </div>
+
+         <div class="col-lg-4 col-md-6">
+        <div class="portfolio-box">
+          <a href="https://tonnyblairlamer.github.io/chichub_homepage/" class="glightbox" data-gallery="tonny-projects" data-title="E- farming" data-description="<p>Responsive student association website built using HTML, CSS & JS.</p><a href='https://tonnyblairlamer.github.io/chichub_homepage/' target='_blank' class='lightbox-btn'>🔗 View Project</a>">
+            <img src="dr.png" alt="NUSA Website">
+            <div class="portfolio-info"><h4>Chicken Hub Site</h4><p>Web Development</p></div>
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="portfolio-box">
+          <a href="https://frieca-pharmacy-codewithblair.netlify.app/" class="glightbox" data-gallery="tonny-projects" data-title="E-Pharmacy Dashboard" data-description="<p>Modern pharmacy management system interface built with PHP.</p><a href='https://frieca-pharmacy-codewithblair.netlify.app/' target='_blank' class='lightbox-btn'>🔗 View Project</a>">
+            <img src="Screenshot (91).png" alt="E-Pharmacy">
+            <div class="portfolio-info"><h4>E-Pharmacy Dashboard</h4><p>Web System</p></div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- EDUCATION & SKILLS (with Download CV) -->
+<section id="education" class="edu">
+  <div class="container">
+    <div class="row text-center mb-4">
+      <h1 class="fw-bold">Education & Skills</h1>
+      <div class="heading-line"></div>
+      <p class="text-muted">My academic journey and daily tools</p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-7">
+        <div class="card p-3 p-md-4 h-100">
+          <h5 class="text-uppercase" style="color:var(--orange)">Education</h5>
+          <ul class="mt-3 mb-0" style="line-height:1.9">
+            <li><strong>2023 – Date</strong> · Makerere University Business School — Bachelor of Business Computing</li>
+            <li><strong>2021 – 2022</strong> · Standard College Ntungamo — UACE</li>
+            <li><strong>2016 – 2019</strong> · St. Mary's College Rushoroza — UCE</li>
+            <li><strong>2008 – 2015</strong> · Kagarama Children's Care Center School — PLE</li>
+          </ul>
+
+          <a class="btn-cv mt-3" href="Blair-cv.pdf" download>
+            <i class="fa-solid fa-file-arrow-down"></i> Download My CV
+          </a>
+        </div>
+      </div>
+
+      <div class="col-lg-5">
+        <div class="card p-3 p-md-4 h-100">
+          <h5 class="text-uppercase" style="color:var(--orange)">My Skills</h5>
+          <div class="skills-wrap mt-3">
+            <span class="pill">HTML</span>
+            <span class="pill">CSS</span>
+            <span class="pill">JavaScript</span>
+            <span class="pill">Laravel</span>
+            <span class="pill">Responsive Design</span>
+            <span class="pill">Graphics Design</span>
+            <span class="pill">Social Media</span>
+            <span class="pill">GitHub</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS (with pictures) -->
+<section id="testimonials" class="testimonials">
+  <div class="container">
+    <div class="text-center mb-4">
+      <h1 class="fw-bold text-white">Testimonials</h1>
+      <p class="text-white-50">What clients say</p>
+    </div>
+
+    <div id="testiCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+
+        <div class="carousel-item active">
+          <div class="testimonials__picture">
+            <img src="cris.jpg" alt="client 1">
+          </div>
+          <p class="mx-auto" style="max-width:800px">
+            "I had the pleasure of working with Blair on the design and development of my website, and I was thoroughly impressed by his professionalism, creativity, and attention to detail. From the initial consultation to the final delivery, he demonstrated excellent communication, a deep understanding of design principles, and a genuine commitment to ensuring that every aspect of the project reflected my vision. Blair not only delivered a high-quality and user-friendly website but also offered valuable insights and support throughout the process. I highly recommend him to anyone seeking a dedicated and skilled web designer who combines technical expertise with exceptional client service."
+          </p>
+          <small>— Cris The Guide</small>
+        </div>
+
+        <div class="carousel-item">
+          <div class="testimonials__picture">
+            <img src="cc.jpg" alt="client 2">
+          </div>
+          <p class="mx-auto" style="max-width:800px">
+            "Blair is a good website builder and well educated about web designing."
+          </p>
+          <small>— Casper Agustus</small>
+        </div>
+
+        <div class="carousel-item">
+          <div class="testimonials__picture">
+            <img src="wilber.jpg" alt="client 3">
+          </div>
+          <p class="mx-auto" style="max-width:800px">
+            "Blair has been a game changer for my career as a junior developer who's excited and saddened about the potential of AI/Machine learning. He not only acknowledges my work but also excellently supports during tasks and I pray we team up for a hackathon and run up the event and emerge victorious"
+          </p>
+          <small>— Wilberforce Mubiru</small>
+        </div>
+
+         <div class="carousel-item">
+          <div class="testimonials__picture">
+            <img src="roj.jpg" alt="client 3">
+          </div>
+          <p class="mx-auto" style="max-width:800px">
+            "Well he does creative graphics design, i recomend him"
+          </p>
+          <small>— Roje Rams</small>
+        </div>
+      </div>
+
+      <button class="carousel-control-prev" type="button" data-bs-target="#testiCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#testiCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT (simple) -->
+<!-- CONTACT (Formspree integrated) -->
+<section id="contact" class="py-5">
+  <div class="container">
+    <div class="text-center mb-4">
+      <h1 class="fw-bold">Get in touch</h1>
+      <div class="heading-line"></div>
+      <p class="text-muted">Tell me about your project and I’ll reply quickly.</p>
+    </div>
+
+    <div class="row g-4">
+      <!-- Left info block -->
+      <div class="col-lg-6">
+        <div class="p-4 rounded" style="background:linear-gradient(90deg,var(--orange),var(--gold));color:#1b1b1b">
+          <h4 class="fw-bold">Let’s build something</h4>
+          <p>I craft landing pages, websites, and polished visuals. From idea to launch — smoothly.</p>
+          <ul class="mb-0">
+            <li>Scope & goals</li>
+            <li>Timeline & cost</li>
+            <li>Design → Build → Launch</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="col-lg-6">
+        <form 
+          action="https://formspree.io/f/xanlgdql" 
+          method="POST" 
+          class="bg-white p-4 rounded shadow-sm"
+        >
+          <div class="row g-3">
+            <div class="col-md-6">
+              <input type="text" name="first_name" class="form-control form-control-lg" placeholder="First name" required>
+            </div>
+            <div class="col-md-6">
+              <input type="text" name="last_name" class="form-control form-control-lg" placeholder="Last name" required>
+            </div>
+            <div class="col-12">
+              <input type="email" name="email" class="form-control form-control-lg" placeholder="Email address" required>
+            </div>
+            <div class="col-12">
+              <textarea name="message" class="form-control form-control-lg" rows="6" placeholder="Message" required></textarea>
+            </div>
+            <div class="col-12 d-grid">
+              <button class="btn btn-rounded" type="submit">Send Message</button>
+            </div>
+          </div>
+
+          <!-- Optional: Redirect to thank-you page -->
+          <input type="hidden" name="_next" value="https://yourwebsite.com/thankyou.html">
+
+          <div class="text-center mt-3">
+            <a class="btn btn-outline-dark rounded-pill" href="https://wa.me/256763860855" target="_blank">
+              <i class="fab fa-whatsapp me-1"></i> Chat on WhatsApp
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer class="pt-4">
+  <div class="container text-center">
+    <p class="mb-0 text-white-50">© <span id="year"></span> <strong>Tonny Blair</strong>. All rights reserved.</p>
+  </div>
+  <div class="footer-bottom py-3 mt-3">
+    <div class="container text-center">
+      <a href="tel:+256763860855" class="text-decoration-none text-white-50 me-3"><i class="fa-solid fa-phone me-1"></i> +256 763 860 855</a>
+      <a href="mailto:blairambasitse@gmail.com" class="text-decoration-none text-white-50 me-3"><i class="fa-regular fa-envelope me-1"></i> blairambasitse@gmail.com</a>
+      <span class="text-white-50"><i class="fa-solid fa-location-dot me-1"></i> Kampala, Uganda</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Floating buttons -->
+<a href="#" class="back-to-top"><i class="fa-solid fa-chevron-up"></i></a>
+<a href="https://wa.me/256763860855" class="wa-fab" target="_blank" aria-label="WhatsApp">
+  <i class="fab fa-whatsapp fs-3"></i>
+</a>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Navbar background on scroll
+  const nav = document.querySelector('.menu');
+  document.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 10);
+  });
+
+  // Hero slideshow
+  const slides = document.querySelectorAll('.slideshow-circle img');
+  let i = 0;
+  if(slides.length){
+    slides[0].classList.add('active');
+    setInterval(()=>{
+      slides[i].classList.remove('active');
+      i = (i + 1) % slides.length;
+      slides[i].classList.add('active');
+    }, 3600);
+  }
+
+  // Footer year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Back to top smooth
+  document.querySelector('.back-to-top').addEventListener('click', (e)=>{
+    e.preventDefault(); window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  // GLightbox setup
+  const lightbox = GLightbox({
+    touchNavigation: true,
+    loop: true,
+    zoomable: true,
+    closeButton: true,
+    openEffect: 'fade',
+    slideEffect: 'fade'
+  });
+</script>
+</body>
+</html>
